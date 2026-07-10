@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Dark context (hero, nav, CTA banner) */
+  --color-dark: #050505;
+  --color-card: #101317;
+  --color-line: #22262b;
+  --color-fg: #f4f6f8;
+  --color-muted: #9aa3ad;
+  --color-dim: #5f6771;
+
+  /* Light context (page body) */
+  --color-bg: #ffffff;
+  --color-paper: #f5f6f8;
+  --color-linel: #e7e9ed;
+  --color-ink: #0a0b0d;
+  --color-ink-muted: #5f6673;
+  --color-ink-dim: #9aa1ab;
+
+  /* Brand accent */
+  --color-accent: #3b8de0;
+  --color-accent-bright: #7cc0ff;
+  --color-accent-deep: #1e5799;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-fragment), ui-monospace, "SF Mono", monospace;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+/* Lenis recommended styles — prevents native/smooth scroll conflicts (jitter) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #04121f;
+}
+
+/* Infinite marquee */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 36s) linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Glow orb — blur is baked into the gradient, animation is compositor-only */
+@keyframes orb-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateZ(0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(0) scale(1.18);
+    opacity: 0.85;
+  }
+}
+
+.orb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 9999px;
+  animation: orb-pulse 7s ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Compositor-friendly pulsing dot (replaces JS-driven infinite animations) */
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.dot-pulse {
+  animation: dot-pulse 2s ease-in-out infinite;
+}
+
+/* Subtle grid backdrop (for dark surfaces) */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* Pixel dot texture (for small dark surfaces like the phone screen) */
+.bg-pixels {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.35) 1px,
+    transparent 1.2px
+  );
+  background-size: 7px 7px;
+}
+
+/* Halftone dot curtain — CSS only, smooth & full-height */
+.halftone-curtain {
+  overflow: hidden;
+  contain: paint;
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 85% at 50% 42%,
+    transparent 0%,
+    transparent 38%,
+    black 72%
+  );
+  mask-image: radial-gradient(
+    ellipse 90% 85% at 50% 42%,
+    transparent 0%,
+    transparent 38%,
+    black 72%
+  );
+}
+
+.halftone-curtain-inner {
+  background-image: radial-gradient(
+    rgba(215, 221, 228, 0.45) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 11px 11px;
+  animation: halftone-drift 48s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halftone-curtain-inner {
+    animation: none;
+  }
+}
+
+@keyframes halftone-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-11px, -22px, 0);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 24s linear infinite;
+}
