@@ -93,52 +93,70 @@ export function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
   const [display, setDisplay] = useState(`${prefix}0${suffix}`);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const run = () => {
-      if (started.current) return;
-      started.current = true;
+    // Local flag (not a ref) so React Strict Mode remounts can restart cleanly
+    let hasRun = false;
+    let cancelled = false;
+    let controls: { stop: () => void } | undefined;
+    let raf = 0;
 
-      const controls = animate(0, to, {
+    const run = () => {
+      if (hasRun || cancelled) return;
+      hasRun = true;
+
+      controls = animate(0, to, {
         duration,
         ease: [0.16, 1, 0.3, 1],
         onUpdate: (value) => {
-          setDisplay(`${prefix}${Math.round(value)}${suffix}`);
+          if (!cancelled) {
+            setDisplay(`${prefix}${Math.round(value)}${suffix}`);
+          }
         },
         onComplete: () => {
-          setDisplay(`${prefix}${to}${suffix}`);
+          if (!cancelled) {
+            setDisplay(`${prefix}${to}${suffix}`);
+          }
         },
       });
-
-      return controls;
     };
 
-    // Already visible on mount (common after intro / Lenis scroll)
-    const rect = el.getBoundingClientRect();
-    const visible =
-      rect.top < window.innerHeight * 0.95 && rect.bottom > window.innerHeight * 0.05;
-    if (visible) {
-      const controls = run();
-      return () => controls?.stop();
+    const isVisible = () => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      return rect.top < vh * 0.95 && rect.bottom > 0 && rect.height > 0;
+    };
+
+    if (isVisible()) {
+      // Defer one frame so parent Reveal / layout has settled
+      raf = requestAnimationFrame(() => run());
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          run();
-          observer.disconnect();
-        }
+        if (entry.isIntersecting) run();
       },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+      { threshold: 0, rootMargin: "80px" },
     );
-
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // Lenis can break IntersectionObserver; poll on scroll as backup
+    const onScroll = () => {
+      if (!hasRun && isVisible()) run();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      controls?.stop();
+    };
   }, [to, prefix, suffix, duration]);
 
   return (
