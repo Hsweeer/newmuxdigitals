@@ -6,7 +6,7 @@ export const SITE_NAME = "MuxDigitals";
 export const SITE = {
   name: SITE_NAME,
   url: SITE_URL,
-  email: "hello@muxdigitals.com",
+  email: "support@muxdigitals.com",
   logo: `${SITE_URL}/logo-mark.png`,
   ogImage: `${SITE_URL}/intro-logo.png`,
   address: {

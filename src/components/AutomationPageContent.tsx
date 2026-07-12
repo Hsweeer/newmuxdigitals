@@ -84,7 +84,7 @@ export default function AutomationPageContent() {
                   </div>
                   <div className="mt-8">
                     <a
-                      href="mailto:hello@muxdigitals.com?subject=Automation%20inquiry"
+                      href="mailto:support@muxdigitals.com?subject=Automation%20inquiry"
                       className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-[#04121f] transition-all duration-300 hover:bg-accent-bright"
                     >
                       Talk about {item.title.split(" (")[0]}
@@ -108,7 +108,7 @@ export default function AutomationPageContent() {
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <a
-                  href="mailto:hello@muxdigitals.com?subject=Automation%20project"
+                  href="mailto:support@muxdigitals.com?subject=Automation%20project"
                   className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-[#04121f] transition-all duration-300 hover:bg-accent-bright"
                 >
                   Start a Project

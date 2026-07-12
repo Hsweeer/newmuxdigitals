@@ -54,10 +54,10 @@ export default function Office() {
                   <span>↗</span>
                 </a>
                 <a
-                  href="mailto:hello@muxdigitals.com"
+                  href="mailto:support@muxdigitals.com"
                   className="inline-flex items-center gap-2 rounded-full border border-linel px-4 py-2 text-xs font-medium text-ink-muted transition-colors hover:border-accent/40 hover:text-ink"
                 >
-                  hello@muxdigitals.com
+                  support@muxdigitals.com
                 </a>
               </div>
             </Reveal>

@@ -139,7 +139,7 @@ export default function Footer() {
           <Reveal delay={0.25}>
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
               <a
-                href="mailto:hello@muxdigitals.com"
+                href="mailto:support@muxdigitals.com"
                 className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-semibold text-[#04121f] transition-all duration-300 hover:bg-accent-bright hover:shadow-[0_0_50px_rgba(78,159,232,0.4)]"
               >
                 Start a Project
@@ -148,10 +148,10 @@ export default function Footer() {
                 </span>
               </a>
               <a
-                href="mailto:hello@muxdigitals.com"
+                href="mailto:support@muxdigitals.com"
                 className="inline-flex items-center gap-2 rounded-full border border-line px-8 py-4 text-sm font-medium text-fg transition-colors duration-300 hover:border-accent/60 hover:text-accent"
               >
-                hello@muxdigitals.com
+                support@muxdigitals.com
               </a>
             </div>
           </Reveal>
@@ -250,24 +250,13 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:hello@muxdigitals.com"
+                  href="mailto:support@muxdigitals.com"
                   className="flex items-start gap-3 text-sm text-muted transition-colors hover:text-fg"
                 >
                   <span className="text-accent">
                     <MailIcon />
                   </span>
-                  hello@muxdigitals.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:careers@muxdigitals.com"
-                  className="flex items-start gap-3 text-sm text-muted transition-colors hover:text-fg"
-                >
-                  <span className="text-accent">
-                    <MailIcon />
-                  </span>
-                  careers@muxdigitals.com
+                  support@muxdigitals.com
                 </a>
               </li>
             </ul>
