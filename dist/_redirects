@@ -1,0 +1,9 @@
+# Netlify redirects for muxdigitals.com go-live
+# TODO: Map each old WordPress URL to its new equivalent before DNS cutover.
+# Example patterns — replace with your actual indexed URLs from Search Console:
+# /old-blog-post-slug    /faq    301
+# /services/mobile-apps  /services    301
+# /contact               /#contact    301
+
+# Force apex domain (adjust if using www)
+# https://www.muxdigitals.com/*  https://muxdigitals.com/:splat  301!

@@ -4,12 +4,12 @@ import { SITE_URL } from "@/lib/metadata";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/about", "/portfolio", "/services", "/automation", "/faq"];
+  const routes = ["/", "/about/", "/portfolio/", "/services/", "/automation/", "/faq/"];
 
   return routes.map((route) => ({
-    url: `${SITE_URL}${route}`,
+    url: route === "/" ? SITE_URL : `${SITE_URL}${route.replace(/\/$/, "")}/`,
     lastModified: new Date(),
-    changeFrequency: route === "" ? "weekly" : "monthly",
-    priority: route === "" ? 1 : 0.8,
+    changeFrequency: route === "/" ? "weekly" : "monthly",
+    priority: route === "/" ? 1 : 0.8,
   }));
 }

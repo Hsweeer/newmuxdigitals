@@ -24,6 +24,13 @@ export const SITE = {
   ],
 } as const;
 
+/** Normalize path to trailing-slash form used by the static export. */
+export function sitePath(path = ""): string {
+  if (!path || path === "/") return "/";
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return clean.endsWith("/") ? clean : `${clean}/`;
+}
+
 export function createMetadata({
   title,
   description,
@@ -33,7 +40,9 @@ export function createMetadata({
   description: string;
   path?: string;
 }): Metadata {
-  const url = `${SITE_URL}${path}`;
+  const normalized = sitePath(path);
+  const url =
+    normalized === "/" ? SITE_URL : `${SITE_URL}${normalized.replace(/\/$/, "")}/`;
 
   return {
     title,
@@ -50,8 +59,8 @@ export function createMetadata({
       images: [
         {
           url: SITE.ogImage,
-          width: 500,
-          height: 500,
+          width: 2000,
+          height: 2000,
           alt: `${SITE_NAME} logo`,
         },
       ],
@@ -61,6 +70,14 @@ export function createMetadata({
       title,
       description,
       images: [SITE.ogImage],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
     },
   };
 }

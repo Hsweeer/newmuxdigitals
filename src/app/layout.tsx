@@ -4,7 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import JsonLd from "@/components/JsonLd";
 import { createMetadata } from "@/lib/metadata";
-import { localBusinessSchema, organizationSchema } from "@/lib/schema";
+import { localBusinessSchema, organizationSchema, websiteSchema } from "@/lib/schema";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${fragmentMono.variable} ${sourceSerif.variable} antialiased`}>
-        <JsonLd data={[organizationSchema(), localBusinessSchema()]} />
+        <JsonLd data={[organizationSchema(), localBusinessSchema(), websiteSchema()]} />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

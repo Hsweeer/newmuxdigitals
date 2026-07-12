@@ -1,7 +1,9 @@
 node_modules/
 .next/
 out/
-dist/
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+
+# dist/ is committed intentionally for cPanel Git deploy
+# (server copies dist/ into public_html via .cpanel.yml)

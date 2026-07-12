@@ -9,7 +9,7 @@ export const metadata = createMetadata({
   title: "What We Do | MuxDigitals",
   description:
     "Software development, product design, and business automation, built to help your business run better and grow faster.",
-  path: "/services",
+  path: "/services/",
 });
 
 export default function ServicesPage() {
@@ -18,7 +18,7 @@ export default function ServicesPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Services", path: "/services" },
+          { name: "Services", path: "/services/" },
         ])}
       />
       <Navbar />

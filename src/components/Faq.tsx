@@ -2,34 +2,8 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { EASE, Reveal, SectionTitle } from "./ui";
-
-const FAQS = [
-  {
-    q: "What kinds of projects do you usually take on?",
-    a: "We build marketing websites, SaaS platforms, dashboards, and mobile apps for startups and established teams. Most engagements combine strategy, design, and engineering under one roof.",
-  },
-  {
-    q: "Do you handle both design and development?",
-    a: "Yes. Our team covers the full journey: research, UX, UI, and front-to-back engineering, so nothing gets lost in a handoff between separate vendors.",
-  },
-  {
-    q: "How long does a typical project take?",
-    a: "A marketing site usually ships in 2–4 weeks. Full product builds range from 6–12 weeks depending on scope. We share a concrete timeline after a short discovery call.",
-  },
-  {
-    q: "Can we request revisions during the process?",
-    a: "Absolutely. We work in short cycles with regular check-ins, so feedback lands early and revisions are part of the rhythm rather than an afterthought.",
-  },
-  {
-    q: "Will the site be easy to manage after launch?",
-    a: "Yes. We build on maintainable stacks, document everything, and can hook up a CMS so your team can update content without touching code.",
-  },
-  {
-    q: "Do you offer ongoing support after delivery?",
-    a: "We offer flexible support and growth retainers covering monitoring, improvements, new features, and performance tuning, so your product keeps getting better.",
-  },
-];
+import { EASE, Reveal } from "./ui";
+import { FAQS } from "@/data/faqs";
 
 function FaqItem({
   q,
@@ -47,6 +21,7 @@ function FaqItem({
       <button
         type="button"
         onClick={onToggle}
+        aria-expanded={open}
         className="flex w-full items-center justify-between gap-6 px-7 py-6 text-left"
       >
         <span className="text-base font-medium text-ink sm:text-lg">{q}</span>
@@ -58,9 +33,11 @@ function FaqItem({
           +
         </motion.span>
       </button>
+      {/* Keep answers in the DOM for crawlers even when visually collapsed */}
       <AnimatePresence initial={false}>
-        {open && (
+        {open ? (
           <motion.div
+            key="open"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -70,6 +47,8 @@ function FaqItem({
               {a}
             </p>
           </motion.div>
+        ) : (
+          <p className="sr-only">{a}</p>
         )}
       </AnimatePresence>
     </div>
@@ -83,10 +62,9 @@ export default function Faq() {
     <section id="faq" className="bg-paper">
       <div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
         <div className="mb-14 text-center">
-          <SectionTitle
-            text="Frequently asked questions."
-            className="!text-4xl sm:!text-5xl text-ink"
-          />
+          <h1 className="text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+            Frequently asked questions.
+          </h1>
         </div>
 
         <div className="flex flex-col gap-3">
