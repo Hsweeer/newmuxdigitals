@@ -35,10 +35,13 @@ DirectoryIndex index.html
 </IfModule>
 
 # Security / SEO-friendly headers
-<IfModule mod_headers.c>
+    <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"
+  <FilesMatch "^(favicon\.ico|favicon-.*\.png|apple-touch-icon\.png|logo-512\.png|site\.webmanifest)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
 </IfModule>
 
 # Custom 404

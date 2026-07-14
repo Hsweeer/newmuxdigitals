@@ -1,0 +1,29 @@
+{
+  "name": "MuxDigitals — Software Development & Business Automation",
+  "short_name": "MuxDigitals",
+  "description": "MuxDigitals (Mux Digital) builds production-ready web apps, mobile apps, and business automation for founders worldwide.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#3B8DE0",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

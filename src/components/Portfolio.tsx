@@ -1,9 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { CATEGORIES, PROJECTS, type Category } from "@/data/projects";
+import {
+  CATEGORIES,
+  PROJECTS,
+  categoryToSlug,
+  slugToCategory,
+  type Category,
+} from "@/data/projects";
 import { EASE, Reveal } from "./ui";
 
 function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
@@ -88,8 +95,69 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
   );
 }
 
-export default function Portfolio() {
-  const [active, setActive] = useState<Category>("All");
+function PortfolioFilters({
+  active,
+  onSelect,
+}: {
+  active: Category;
+  onSelect: (category: Category) => void;
+}) {
+  return (
+    <div className="mt-10 flex flex-wrap justify-center gap-2">
+      {CATEGORIES.map((category) => (
+        <button
+          key={category}
+          type="button"
+          onClick={() => onSelect(category)}
+          aria-pressed={active === category}
+          className={`relative rounded-full px-4 py-2 text-[13px] font-medium transition-colors duration-300 ${
+            active === category
+              ? "text-white"
+              : "border border-linel bg-white text-ink-muted hover:text-ink"
+          }`}
+        >
+          {active === category && (
+            <motion.span
+              layoutId="portfolio-tab"
+              className="absolute inset-0 rounded-full bg-ink"
+              transition={{ type: "spring", stiffness: 380, damping: 32 }}
+            />
+          )}
+          <span className="relative">{category}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function PortfolioInner() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [active, setActive] = useState<Category>(() =>
+    slugToCategory(searchParams.get("category")),
+  );
+
+  useEffect(() => {
+    setActive(slugToCategory(searchParams.get("category")));
+  }, [searchParams]);
+
+  const selectCategory = useCallback(
+    (category: Category) => {
+      setActive(category);
+      const params = new URLSearchParams(searchParams.toString());
+      if (category === "All") {
+        params.delete("category");
+      } else {
+        params.set("category", categoryToSlug(category));
+      }
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
+    },
+    [pathname, router, searchParams],
+  );
 
   const filtered =
     active === "All"
@@ -113,36 +181,14 @@ export default function Portfolio() {
           </Reveal>
           <Reveal delay={0.16}>
             <p className="mx-auto mt-6 max-w-xl text-pretty leading-relaxed text-ink-muted">
-              Real products across mobile, web, automation, and design, each
-              with a live link you can explore.
+              Full live portfolio across mobile apps and web platforms — every
+              project opens a verified working link.
             </p>
           </Reveal>
         </div>
 
         <Reveal delay={0.22}>
-          <div className="mt-10 flex flex-wrap justify-center gap-2">
-            {CATEGORIES.map((category) => (
-              <button
-                key={category}
-                type="button"
-                onClick={() => setActive(category)}
-                className={`relative rounded-full px-4 py-2 text-[13px] font-medium transition-colors duration-300 ${
-                  active === category
-                    ? "text-white"
-                    : "border border-linel bg-white text-ink-muted hover:text-ink"
-                }`}
-              >
-                {active === category && (
-                  <motion.span
-                    layoutId="portfolio-tab"
-                    className="absolute inset-0 rounded-full bg-ink"
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  />
-                )}
-                <span className="relative">{category}</span>
-              </button>
-            ))}
-          </div>
+          <PortfolioFilters active={active} onSelect={selectCategory} />
         </Reveal>
 
         <motion.div
@@ -157,5 +203,29 @@ export default function Portfolio() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+export default function Portfolio() {
+  return (
+    <Suspense
+      fallback={
+        <section className="bg-bg pb-20 pt-36 sm:pb-24 sm:pt-44">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div className="mx-auto h-40 max-w-3xl animate-pulse rounded-2xl bg-white/60" />
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="aspect-[16/10] animate-pulse rounded-3xl bg-white/60"
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      }
+    >
+      <PortfolioInner />
+    </Suspense>
   );
 }

@@ -3,7 +3,7 @@ import { Inter, Fragment_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import JsonLd from "@/components/JsonLd";
-import { createMetadata } from "@/lib/metadata";
+import { createMetadata, SITE } from "@/lib/metadata";
 import { localBusinessSchema, organizationSchema, websiteSchema } from "@/lib/schema";
 
 const inter = Inter({
@@ -29,11 +29,9 @@ const sourceSerif = Source_Serif_4({
 
 export const metadata: Metadata = {
   ...createMetadata({
-    title: "MuxDigitals | Software Development & Business Automation",
-    description:
-      "We build the software your business runs on and the automation that keeps it running. One senior team, start to finish.",
+    title: "MuxDigitals | Mux Digital — Software Development & Business Automation",
+    description: SITE.description,
   }),
-  icons: { icon: "/MuxDigital-2.png" },
 };
 
 export default function RootLayout({

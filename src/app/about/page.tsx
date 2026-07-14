@@ -8,9 +8,9 @@ import { createMetadata } from "@/lib/metadata";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata = createMetadata({
-  title: "About Us | MuxDigitals",
+  title: "About MuxDigitals | Mux Digital Software Studio",
   description:
-    "A senior-led studio building software and automation for startups and growing businesses since 2016.",
+    "About MuxDigitals (Mux Digital): a senior-led software and automation studio building web apps, mobile apps, and business systems for founders since 2016.",
   path: "/about/",
 });
 

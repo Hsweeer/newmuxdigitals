@@ -1,10 +1,9 @@
 import Home from "@/components/Home";
-import { createMetadata } from "@/lib/metadata";
+import { createMetadata, SITE } from "@/lib/metadata";
 
 export const metadata = createMetadata({
-  title: "MuxDigitals | Software Development & Business Automation",
-  description:
-    "We build the software your business runs on and the automation that keeps it running. One senior team, start to finish.",
+  title: "MuxDigitals | Mux Digital — Software Development & Business Automation",
+  description: SITE.description,
   path: "/",
 });
 

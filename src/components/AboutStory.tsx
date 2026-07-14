@@ -36,8 +36,9 @@ export default function AboutStory() {
           </Reveal>
           <Reveal delay={0.12}>
             <p className="mx-auto mt-4 max-w-lg text-pretty text-sm leading-relaxed text-muted sm:text-[15px]">
-              Senior-led product engineering from Multan — web, mobile, and
-              automation for startups worldwide since 2016.
+              MuxDigitals is a senior-led product engineering studio from
+              Multan — web, mobile, and automation for startups worldwide since
+              2016.
             </p>
           </Reveal>
         </div>

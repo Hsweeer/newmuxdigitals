@@ -74,10 +74,11 @@ export default function Hero({ start }: { start: boolean }) {
           }}
           className="mb-7 font-mono text-[11px] uppercase tracking-[0.28em] text-muted"
         >
-          Software Development · Business Automation
+          MuxDigitals · Software Development · Business Automation
         </motion.p>
 
         <h1 className="text-balance text-[36px] font-medium leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+          <span className="sr-only">MuxDigitals — </span>
           <span className="block">
             {LINE_1.map((word, i) => (
               <Word key={i} index={i}>

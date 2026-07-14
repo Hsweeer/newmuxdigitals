@@ -1,5 +1,15 @@
-import { SITE, sitePath } from "./metadata";
+import { BRAND_ALTERNATES, SITE, sitePath } from "./metadata";
 import { FAQS } from "@/data/faqs";
+
+function logoImageObject() {
+  return {
+    "@type": "ImageObject",
+    url: SITE.logo,
+    width: 512,
+    height: 512,
+    caption: `${SITE.name} logo`,
+  };
+}
 
 export function organizationSchema() {
   return {
@@ -7,9 +17,13 @@ export function organizationSchema() {
     "@type": "Organization",
     "@id": `${SITE.url}/#organization`,
     name: SITE.name,
+    alternateName: [...BRAND_ALTERNATES],
     url: SITE.url,
-    logo: SITE.logo,
+    logo: logoImageObject(),
+    image: SITE.ogImage,
+    description: SITE.description,
     email: SITE.email,
+    foundingDate: "2016",
     sameAs: SITE.sameAs,
     address: {
       "@type": "PostalAddress",
@@ -33,10 +47,12 @@ export function localBusinessSchema() {
     "@type": "ProfessionalService",
     "@id": `${SITE.url}/#localbusiness`,
     name: SITE.name,
+    alternateName: [...BRAND_ALTERNATES],
     url: SITE.url,
-    logo: SITE.logo,
+    logo: logoImageObject(),
     email: SITE.email,
     image: SITE.ogImage,
+    description: SITE.description,
     sameAs: SITE.sameAs,
     priceRange: "$$",
     address: {
@@ -59,11 +75,13 @@ export function websiteSchema() {
     "@type": "WebSite",
     "@id": `${SITE.url}/#website`,
     name: SITE.name,
+    alternateName: [...BRAND_ALTERNATES],
     url: SITE.url,
+    description: SITE.description,
+    inLanguage: "en",
     publisher: {
       "@id": `${SITE.url}/#organization`,
     },
-    inLanguage: "en",
   };
 }
 
