@@ -23,6 +23,7 @@ export function organizationSchema() {
     image: SITE.ogImage,
     description: SITE.description,
     email: SITE.email,
+    telephone: SITE.phone,
     foundingDate: "2016",
     sameAs: SITE.sameAs,
     address: {
@@ -35,6 +36,7 @@ export function organizationSchema() {
     contactPoint: {
       "@type": "ContactPoint",
       email: SITE.email,
+      telephone: SITE.phone,
       contactType: "customer support",
       availableLanguage: ["English"],
     },
@@ -51,6 +53,7 @@ export function localBusinessSchema() {
     url: SITE.url,
     logo: logoImageObject(),
     email: SITE.email,
+    telephone: SITE.phone,
     image: SITE.ogImage,
     description: SITE.description,
     sameAs: SITE.sameAs,

@@ -16,18 +16,18 @@ function ProjectCard({
 }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border bg-white shadow-[0_20px_50px_-24px_rgba(10,11,13,0.28)] transition-shadow duration-500 sm:rounded-3xl ${
+      className={`relative overflow-hidden rounded-2xl border bg-white shadow-[0_20px_50px_-24px_rgba(10,11,13,0.28)] transition-shadow duration-500 sm:rounded-[1.75rem] ${
         isCenter
           ? "border-linel shadow-[0_28px_60px_-20px_rgba(59,141,224,0.22)]"
           : "border-linel/60"
       }`}
     >
       {project.frame === "browser" && (
-        <div className="flex items-center gap-1.5 border-b border-linel bg-[#eceef1] px-2.5 py-1.5 sm:px-3 sm:py-2">
-          <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-          <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-          <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-          <span className="ml-1.5 flex-1 truncate rounded-md bg-white/80 px-2 py-0.5 font-mono text-[7px] text-ink-dim sm:text-[8px]">
+        <div className="flex items-center gap-1.5 border-b border-linel bg-[#eceef1] px-3 py-2 sm:px-3.5 sm:py-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          <span className="ml-2 flex-1 truncate rounded-md bg-white/80 px-2.5 py-1 font-mono text-[8px] text-ink-dim sm:text-[9px]">
             {project.href.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]}
           </span>
         </div>
@@ -42,24 +42,24 @@ function ProjectCard({
               ? "object-cover object-top"
               : "object-cover object-center"
           } ${isCenter ? "group-hover:scale-[1.02]" : ""}`}
-          sizes="(max-width: 640px) 88vw, 340px"
+          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 70vw, 720px"
           priority={isCenter}
         />
-        <span className="absolute left-2.5 top-2.5 rounded-full border border-white/25 bg-black/45 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.16em] text-white backdrop-blur-sm sm:left-3 sm:top-3 sm:px-2.5 sm:py-1 sm:text-[9px]">
+        <span className="absolute left-3 top-3 rounded-full border border-white/25 bg-black/45 px-2.5 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-white backdrop-blur-sm sm:left-4 sm:top-4 sm:px-3 sm:text-[10px]">
           {project.category}
         </span>
       </div>
-      <div className="flex items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-4 sm:py-3.5">
+      <div className="flex items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 sm:py-4">
         <div className="min-w-0">
-          <h3 className="truncate text-sm font-semibold tracking-tight text-ink sm:text-base">
+          <h3 className="truncate text-base font-semibold tracking-tight text-ink sm:text-lg">
             {project.name}
           </h3>
-          <p className="mt-0.5 truncate text-xs text-ink-muted sm:text-sm">
+          <p className="mt-0.5 truncate text-sm text-ink-muted sm:text-[15px]">
             {project.kind}
           </p>
         </div>
         {isCenter && (
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-linel text-sm text-ink-muted transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white sm:h-9 sm:w-9">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-linel text-sm text-ink-muted transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white sm:h-10 sm:w-10 sm:text-base">
             ↗
           </span>
         )}
@@ -68,25 +68,34 @@ function ProjectCard({
   );
 }
 
+function measureCardWidth(viewportW: number, containerW: number) {
+  if (viewportW < 480) return Math.min(containerW, Math.max(300, viewportW - 28));
+  if (viewportW < 640) return Math.min(containerW, Math.max(340, viewportW - 40));
+  if (viewportW < 900) return Math.min(560, Math.max(420, containerW * 0.72));
+  if (viewportW < 1200) return Math.min(640, Math.max(520, containerW * 0.58));
+  return Math.min(720, Math.max(580, containerW * 0.52));
+}
+
 export default function WorkCarousel({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState(0);
-  const [cardW, setCardW] = useState(300);
+  const [cardW, setCardW] = useState(560);
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const count = projects.length;
-  const activeProject = projects[active];
+  const safeActive = count === 0 ? 0 : ((active % count) + count) % count;
+  const activeProject = projects[safeActive];
 
-  const gap = cardW < 340 ? 14 : 20;
+  const gap = cardW < 400 ? 16 : cardW < 560 ? 22 : 28;
   const step = cardW + gap;
-  const cardH = cardW * 0.625 + 88;
+  const cardH = cardW * 0.625 + (cardW < 400 ? 96 : 108);
 
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
     const measure = () => {
-      const w = el.offsetWidth;
-      setCardW(Math.min(w, window.innerWidth < 640 ? 320 : 360));
+      const next = measureCardWidth(window.innerWidth, el.offsetWidth);
+      setCardW((prev) => (prev === next ? prev : next));
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -99,7 +108,10 @@ export default function WorkCarousel({ projects }: { projects: Project[] }) {
   }, []);
 
   const go = useCallback(
-    (dir: -1 | 1) => setActive((i) => (i + dir + count) % count),
+    (dir: -1 | 1) => {
+      if (count === 0) return;
+      setActive((i) => (i + dir + count) % count);
+    },
     [count]
   );
 
@@ -132,17 +144,18 @@ export default function WorkCarousel({ projects }: { projects: Project[] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [go]);
 
-  return (
-    <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8">
-      {/* Edge fades */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-8 bg-gradient-to-r from-bg to-transparent sm:w-20" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-8 bg-gradient-to-l from-bg to-transparent sm:w-20" />
+  if (!activeProject) {
+    return null;
+  }
 
-      {/* Card stage — fixed height, vertically centred slides */}
-      <div
-        ref={wrapRef}
-        className="relative mx-auto w-full max-w-[360px] sm:max-w-[380px]"
-      >
+  return (
+    <div className="relative mx-auto w-full max-w-[1400px] px-3 sm:px-6 lg:px-8">
+      {/* Edge fades */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-6 bg-gradient-to-r from-bg to-transparent sm:w-16 lg:w-24" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-6 bg-gradient-to-l from-bg to-transparent sm:w-16 lg:w-24" />
+
+      {/* Full-width stage so cards can grow; slides centered via absolute positioning */}
+      <div ref={wrapRef} className="relative mx-auto w-full">
         <motion.div
           className="relative touch-pan-y"
           style={{ height: cardH }}
@@ -160,16 +173,20 @@ export default function WorkCarousel({ projects }: { projects: Project[] }) {
 
             const isCenter = offset === 0;
             const isAdjacent = Math.abs(offset) === 1;
-            const scale = isCenter ? 1 : 0.86;
-            const opacity = isCenter ? 1 : isAdjacent ? 0.55 : 0;
+            const scale = isCenter ? 1 : cardW < 420 ? 0.9 : 0.88;
+            const opacity = isCenter ? 1 : isAdjacent ? 0.5 : 0;
 
             return (
               <motion.article
                 key={project.id}
-                className="absolute top-0 cursor-grab active:cursor-grabbing"
-                style={{ width: cardW, left: "50%", transformOrigin: "center top" }}
+                className="absolute top-0 left-1/2 cursor-grab active:cursor-grabbing"
+                style={{
+                  width: cardW,
+                  marginLeft: -cardW / 2,
+                  transformOrigin: "center top",
+                }}
                 animate={{
-                  x: -cardW / 2 + offset * step + dragX,
+                  x: offset * step + dragX,
                   scale,
                   opacity,
                   zIndex: isCenter ? 20 : 10 - Math.abs(offset),
@@ -207,8 +224,8 @@ export default function WorkCarousel({ projects }: { projects: Project[] }) {
       </div>
 
       {/* Active meta — fixed slot, no layout jump */}
-      <div className="mx-auto mt-3 flex min-h-[36px] max-w-[360px] flex-wrap items-center justify-center gap-1.5 px-1 sm:mt-4 sm:max-w-[380px] sm:gap-2">
-        <span className="rounded-full border border-accent/20 bg-accent/10 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-accent-deep sm:px-3 sm:py-1 sm:text-[10px]">
+      <div className="mx-auto mt-4 flex min-h-[40px] max-w-2xl flex-wrap items-center justify-center gap-2 px-2 sm:mt-5 sm:gap-2.5">
+        <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-accent-deep sm:text-[10px]">
           {activeProject.metric}
         </span>
         {activeProject.tags.map((tag) => (
@@ -221,13 +238,13 @@ export default function WorkCarousel({ projects }: { projects: Project[] }) {
         ))}
       </div>
 
-      {/* Controls — tight to meta */}
-      <div className="mx-auto mt-3 flex max-w-[360px] items-center justify-between gap-2 sm:mt-4 sm:max-w-[380px] sm:gap-3">
+      {/* Controls */}
+      <div className="mx-auto mt-4 flex max-w-xl items-center justify-between gap-3 sm:mt-5">
         <button
           type="button"
           onClick={() => go(-1)}
           aria-label="Previous project"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-linel bg-white text-ink-muted transition-all duration-300 hover:border-accent hover:text-accent sm:h-10 sm:w-10"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-linel bg-white text-ink-muted transition-all duration-300 hover:border-accent hover:text-accent sm:h-11 sm:w-11"
         >
           ←
         </button>
@@ -256,13 +273,13 @@ export default function WorkCarousel({ projects }: { projects: Project[] }) {
           type="button"
           onClick={() => go(1)}
           aria-label="Next project"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-linel bg-white text-ink-muted transition-all duration-300 hover:border-accent hover:text-accent sm:h-10 sm:w-10"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-linel bg-white text-ink-muted transition-all duration-300 hover:border-accent hover:text-accent sm:h-11 sm:w-11"
         >
           →
         </button>
       </div>
 
-      <p className="mt-2 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-ink-dim">
+      <p className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-ink-dim sm:mt-3">
         {active + 1} / {count}
       </p>
     </div>

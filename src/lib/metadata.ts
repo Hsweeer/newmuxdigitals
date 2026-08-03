@@ -16,6 +16,8 @@ export const SITE = {
   name: SITE_NAME,
   url: SITE_URL,
   email: "support@muxdigitals.com",
+  phone: "+92 318 6584407",
+  phoneTel: "+923186584407",
   /** Square logo for Organization schema (min 112×112). */
   logo: `${SITE_URL}/logo-512.png`,
   ogImage: `${SITE_URL}/intro-logo.png`,

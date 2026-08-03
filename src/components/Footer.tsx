@@ -106,6 +106,24 @@ function MailIcon() {
   );
 }
 
+function PhoneIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="mt-0.5 h-4 w-4 shrink-0"
+    >
+      <path
+        d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 005.5 5.5l1.5-2 4 1.5v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7a2 2 0 012-2.2z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function Footer() {
   return (
     <footer id="contact" className="relative overflow-hidden bg-dark text-fg">
@@ -257,6 +275,17 @@ export default function Footer() {
                     <MailIcon />
                   </span>
                   support@muxdigitals.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+923186584407"
+                  className="flex items-start gap-3 text-sm text-muted transition-colors hover:text-fg"
+                >
+                  <span className="text-accent">
+                    <PhoneIcon />
+                  </span>
+                  +92 318 6584407
                 </a>
               </li>
             </ul>

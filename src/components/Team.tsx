@@ -30,35 +30,41 @@ const TEAM: Member[] = [
     photo: "/team/hashir-khalid.jpg?v=2",
     objectPosition: "center center",
   },
+  {
+    name: "Atta ul Mohiman",
+    role: "CTO",
+    photo: "/team/cto.jpg",
+    objectPosition: "center 18%",
+  },
 ];
 
 function TeamCard({ member, index }: { member: Member; index: number }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20px" }}
-      transition={{ duration: 0.55, ease: EASE, delay: index * 0.08 }}
-      className="group w-full max-w-[260px] sm:max-w-[280px]"
+      transition={{ duration: 0.5, ease: EASE, delay: index * 0.06 }}
+      className="group w-[200px] shrink-0 sm:w-[220px] lg:w-[240px]"
     >
-      <div className="overflow-hidden rounded-2xl border border-linel bg-white shadow-[0_12px_32px_-20px_rgba(10,11,13,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_44px_-20px_rgba(59,141,224,0.35)]">
-        <div className="relative aspect-[3/3.5] overflow-hidden bg-[#eef2f6]">
+      <div className="overflow-hidden rounded-2xl border border-linel bg-white shadow-[0_10px_28px_-18px_rgba(10,11,13,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-18px_rgba(59,141,224,0.3)]">
+        <div className="relative aspect-[3/3.4] overflow-hidden bg-[#eef2f6]">
           <Image
             src={member.photo}
             alt={`Portrait photo of ${member.name}, ${member.role} at MuxDigitals`}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.01]"
             style={{ objectPosition: member.objectPosition ?? "center top" }}
-            sizes="(max-width: 640px) 80vw, 280px"
+            sizes="240px"
           />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/20 to-transparent" />
         </div>
 
-        <div className="px-4 py-3.5 text-center">
-          <h3 className="text-[15px] font-semibold tracking-tight text-ink">
+        <div className="px-3 py-3 text-center">
+          <h3 className="truncate text-[14px] font-semibold tracking-tight text-ink sm:text-[15px]">
             {member.name}
           </h3>
-          <p className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-accent-deep">
+          <p className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.16em] text-accent-deep">
             {member.role}
           </p>
         </div>
@@ -85,10 +91,15 @@ export default function Team() {
           </Reveal>
         </div>
 
-        <div className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-5 sm:mt-10 sm:gap-6">
-          {TEAM.map((member, i) => (
-            <TeamCard key={member.name} member={member} index={i} />
-          ))}
+        {/* One row — scroll/carousel on smaller screens, centered on large */}
+        <div className="mt-8 sm:mt-9">
+          <div className="-mx-5 flex justify-start gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] snap-x snap-mandatory sm:mx-0 sm:justify-center sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
+            {TEAM.map((member, i) => (
+              <div key={member.name} className="snap-center">
+                <TeamCard member={member} index={i} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

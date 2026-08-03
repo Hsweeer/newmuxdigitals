@@ -42,7 +42,32 @@ export default function Office() {
               </div>
             </Reveal>
 
-            <Reveal delay={0.14}>
+            <Reveal delay={0.12}>
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent-deep">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4">
+                    <path
+                      d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 005.5 5.5l1.5-2 4 1.5v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7a2 2 0 012-2.2z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <div>
+                  <a
+                    href="tel:+923186584407"
+                    className="text-sm font-medium text-ink transition-colors hover:text-accent-deep"
+                  >
+                    +92 318 6584407
+                  </a>
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-ink-dim">
+                    Phone / WhatsApp
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.16}>
               <div className="flex flex-wrap gap-2">
                 <a
                   href={DIRECTIONS_URL}
@@ -58,6 +83,12 @@ export default function Office() {
                   className="inline-flex items-center gap-2 rounded-full border border-linel px-4 py-2 text-xs font-medium text-ink-muted transition-colors hover:border-accent/40 hover:text-ink"
                 >
                   support@muxdigitals.com
+                </a>
+                <a
+                  href="tel:+923186584407"
+                  className="inline-flex items-center gap-2 rounded-full border border-linel px-4 py-2 text-xs font-medium text-ink-muted transition-colors hover:border-accent/40 hover:text-ink"
+                >
+                  +92 318 6584407
                 </a>
               </div>
             </Reveal>

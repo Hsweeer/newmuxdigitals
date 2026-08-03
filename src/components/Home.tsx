@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Preloader from "./Preloader";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
@@ -14,10 +14,17 @@ import Footer from "./Footer";
 
 export default function Home() {
   const [introDone, setIntroDone] = useState(false);
+  const markDone = useCallback(() => setIntroDone(true), []);
+
+  // Failsafe: never leave the homepage locked behind the intro.
+  useEffect(() => {
+    const t = setTimeout(() => setIntroDone(true), 3200);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <>
-      <Preloader onDone={() => setIntroDone(true)} />
+      <Preloader onDone={markDone} />
       <Navbar show={introDone} />
       <main>
         <Hero start={introDone} />
