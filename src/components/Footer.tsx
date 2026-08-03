@@ -57,7 +57,7 @@ const SOCIALS = [
   { label: "X / Twitter", href: "https://x.com/muxdigitals", icon: <XIcon /> },
   {
     label: "Instagram",
-    href: "https://instagram.com/muxdigitals",
+    href: "https://www.instagram.com/muxdigitals.officiall",
     icon: <InstagramIcon />,
   },
   {

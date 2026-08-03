@@ -44,7 +44,7 @@ export const SITE = {
   },
   sameAs: [
     "https://x.com/muxdigitals",
-    "https://instagram.com/muxdigitals",
+    "https://www.instagram.com/muxdigitals.officiall",
     "https://www.linkedin.com/company/mux-digitals",
     "https://youtube.com/@muxdigitals",
   ],
